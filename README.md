@@ -10,7 +10,7 @@
 *Full code will be released once the article has been published*
 
 ## Overview
-[Model Inference]: https://github.com/C3Imaging/joint-speech-text/images/Model_Inference.png
+[Model Inference]: https://github.com/C3Imaging/joint-speech-text/blob/main/images/Model_Inference.png
 The proposed architecture is a model that can do three speech processing tasks: Speaker Recognition, Automatic Speech Recognition, and Text-to-Speech
 
 ![Model Inference]
