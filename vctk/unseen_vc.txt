@@ -1,0 +1,4 @@
+vctk/wav16/p274/p274_024.wav|vctk/wav16/p314/p314_024.wav|vctk/wav16/p314/p314_094.wav
+vctk/wav16/p314/p314_024.wav|vctk/wav16/p274/p274_024.wav|vctk/wav16/p274/p274_448.wav
+vctk/wav16/p293/p293_002.wav|vctk/wav16/p313/p313_002.wav|vctk/wav16/p313/p313_315.wav
+vctk/wav16/p313/p313_002.wav|vctk/wav16/p293/p293_002.wav|vctk/wav16/p293/p293_005.wav

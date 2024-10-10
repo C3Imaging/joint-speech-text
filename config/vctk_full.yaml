@@ -1,0 +1,150 @@
+# Config file for VCTK Training and Testing
+training:
+  exp_dir: "exp/vctk_full"
+  max_epoch: 1000
+  batch_size: 2
+  checkpoint_epoch: 5
+  continue: True
+  continue_checkpoint: "checkpoint_450"
+  train_list: "vctk/train.txt"
+  global_learning_rate: 1e-4
+  grad_accum: 4
+
+evaluation:
+  seen_list: "vctk/test.txt"
+  unseen_list: "vctk/unseen_test.txt"
+  batch_size: 4
+  checkpoint: "checkpoint_450"
+  device: "cuda"
+  spk_file: "vctk/spk_list.txt"
+  vc_list: "vctk/test_vc.txt"
+
+# Raw Speech and Mel Spectrogram Target
+preprocessing:
+  audio:
+    sampling_rate: 16000
+  stft:
+    filter_length: 1280
+    hop_length: 320
+    win_length: 1280
+  mel:
+    n_mel_channels: 80
+    mel_fmin: 0
+    mel_fmax: 8000
+
+# Initial Speech Feature Extractor
+# 1D-Convolutions from Wav2Vec2 Feature Encoder
+speech_feature:
+  num_feat_extract_layers: 7
+  conv_bias: False
+  conv_dim: [512, 512, 512, 512, 512, 512, 512] # len = num_feat_extract_layers
+  conv_kernel: [10, 3, 3, 3, 3, 2, 2] # len = num_feat_extract_layers
+  conv_stride: [5, 2, 2, 2, 2, 2, 2] # len = num_feat_extract_layers
+  feat_extract_activation: "gelu"
+  feat_extract_norm: "group"
+  position_embeddings_type: "relative"
+  output_dim: 512
+
+# Initial Text Feature Extractor
+text_feature:
+  input_dim: 79
+  att_dim: 384
+  att_head: 2
+  linear_units: 1536
+  num_blocks: 4
+  dropout_rate: 0.1
+  positional_dropout_rate: 0.1
+  attention_dropout_rate: 0.1
+  normalize_before: True
+  concat_after: False
+  positionwise_layer_type: "linear"
+  positionwise_conv_kernel_size: 3
+  macaron_style: True
+  pos_enc_layer_type: "rel_pos"
+  selfattention_layer_type: "rel_selfattn"
+  activation_type: "swish"
+  use_cnn_module: True
+  cnn_module_kernel: 7
+  zero_triu: False
+  input_layer: "embed"
+  padding_idx: 0
+  output_dim: 512
+
+# Linear Layer for ASR Decoding
+asr:
+  input_dim: 512 # shared encoder output
+  num_tokens: 32
+
+# MFA Conformer
+spkrecog:
+  input_dim: 512 # speech feature output
+  num_blocks: 3
+  spk_embed_dim: 256
+  num_speakers: 100
+  margin: 0.4
+  scale: 30
+  input_layer: "conv2d2"
+  pos_enc_layer_type: "rel_pos"
+
+# Unsupervised Alignment and Duration
+aligner:
+  txt_embed_dim: 512
+  asr_embed_dim: 512
+
+duration:
+  layers: 2
+  input_dim: 512
+  kernel_size: 3
+  dropout: 0.1
+  filter_size: 256
+
+# Conformer Encoders for both Text and Speech Modalities
+shared_encoder:
+  input_dim: 0
+  att_dim: 512
+  att_head: 8
+  linear_units: 1024
+  num_blocks: 8
+  dropout_rate: 0.1
+  positional_dropout_rate: 0.1
+  attention_dropout_rate: 0.1
+  normalize_before: True
+  concat_after: False
+  positionwise_layer_type: "linear"
+  positionwise_conv_kernel_size: 3 # unused if linear
+  macaron_style: True
+  pos_enc_layer_type: "rel_pos"
+  selfattention_layer_type: "rel_selfattn"
+  activation_type: "swish"
+  use_cnn_module: True
+  cnn_module_kernel: 31
+  zero_triu: False
+  input_layer: None
+
+# Conformer Decoders for Text-to-Speech
+tts_decoder:
+  input_dim: 512
+  input_layer: "linear"
+  att_dim: 384
+  att_head: 2
+  linear_units: 1536
+  num_blocks: 4
+  dropout_rate: 0.1
+  positional_dropout_rate: 0.1
+  attention_dropout_rate: 0.1
+  normalize_before: True
+  concat_after: False
+  positionwise_layer_type: "linear"
+  positionwise_conv_kernel_size: 3 # unused if linear
+  macaron_style: True
+  pos_enc_layer_type: "rel_pos"
+  selfattention_layer_type: "rel_selfattn"
+  activation_type: "swish"
+  use_cnn_module: True
+  cnn_module_kernel: 31
+  zero_triu: False
+  postnet_layers: 5
+  postnet_chans: 256
+  postnet_filts: 5
+  postnet_dropout_rate: 0.5
+  melspec_dim: 80

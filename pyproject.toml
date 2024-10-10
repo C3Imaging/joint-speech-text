@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "jst-msp"
+version = "0.1.0"
+description = "Open source code for the article: Joint Speech-Text Embeddings for Multitask Speech Processing"
+authors = ["Migi <M.Gonzales1@universityofgalway.ie>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+espnet = {path = "espnet_modified"}
+tensorboard = "^2.17.0"
+transformers = "^4.43.2"
+speechbrain = "^1.0.0"
+matplotlib = "^3.9.1"
+torchmetrics = "^1.4.0.post0"
+pymcd = "^0.2.1"
+pyctcdecode = "^0.5.0"
+kenlm = "^0.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
